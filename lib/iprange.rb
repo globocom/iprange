@@ -10,29 +10,24 @@ module IPRange
     end
 
     def remove(range)
-      @redis.zrem(@redis_key, range_key(range))
+      @redis.irem(@redis_key, range)
       @redis.del(metadata_key(range))
     end
 
     def add(range, metadata={})
-      key = range_key(range)
-      @redis.zadd(@redis_key, key, range)
+      ipaddr_range = IPAddr.new(range).to_range
+      @redis.iadd(@redis_key, ipaddr_range.first.to_i, ipaddr_range.last.to_i, range)
       hash = metadata_key(range)
       @redis.mapped_hmset(hash, metadata) unless metadata.empty?
     end
 
     def find(ip)
       ipaddr = IPAddr.new(ip)
-      next_range = @redis.zrangebyscore(@redis_key, ipaddr.to_i, "+inf", limit: [0, 1]).first
-      if IPAddr.new(next_range).include? ipaddr
-        metadata = @redis.hgetall(metadata_key(next_range))
-        {range: next_range}.merge(metadata)
+      first_range = @redis.istab(@redis_key, ipaddr.to_i).first
+      if first_range
+        metadata = @redis.hgetall(metadata_key(first_range))
+        {range: first_range}.merge(metadata)
       end
-    end
-
-    private
-    def range_key(range)
-      IPAddr.new(range).to_range.last.to_i
     end
 
     def metadata_key(range)
