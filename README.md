@@ -26,7 +26,7 @@ Or install it yourself as:
 
 ## Notice
 
-The ranges MUST not overlap!
+The ranges MUST not overlap! If they do, you should consider using the `redis-intervals` branch, that relies on [intervals sets in Redis](https://github.com/hoxworth/redis/tree/2.6-intervals), as described in this [blog post](http://blog.togo.io/how-to/adding-interval-sets-to-redis/).
 
 ## Contributing
 
