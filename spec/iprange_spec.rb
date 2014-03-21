@@ -1,6 +1,12 @@
 require "spec_helper"
 
 describe IPRange::Range do
+  before do
+    range = IPRange::Range.new()
+    range.remove("0.0.0.0/0")
+    range.remove("192.168.0.1/24")
+  end
+
   describe ".initialize" do
     subject do
       IPRange::Range
@@ -24,7 +30,6 @@ describe IPRange::Range do
     end
 
     before do
-      subject.remove("192.168.0.1/24")
       subject.add("192.168.0.1/24")
     end
 
@@ -50,7 +55,6 @@ describe IPRange::Range do
     end
 
     before do
-      subject.remove("192.168.0.1/24")
       subject.add("192.168.0.1/24", some: "data", more: "metadata")
     end
 
@@ -61,4 +65,27 @@ describe IPRange::Range do
       expect(response["more"]).to eq("metadata")
     end
   end
+
+  describe "when there is multiple ranges with overlap" do
+    subject do
+      IPRange::Range.new
+    end
+
+    before do
+      subject.add("0.0.0.0/0")
+      subject.add("192.168.0.1/24")
+    end
+
+    it "should find the most specific range" do
+      response = subject.find("192.168.0.20")
+      expect(response[:range]).to eq("192.168.0.1/24")
+    end
+
+    it "should find all the ranges" do
+      response = subject.find_all("192.168.0.20")
+      expect(response).to eq([{:range=>"192.168.0.1/24"}, {:range=>"0.0.0.0/0"}])
+    end
+
+  end
+
 end

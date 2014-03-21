@@ -22,11 +22,15 @@ module IPRange
     end
 
     def find(ip)
+      find_all(ip).first
+    end
+
+    def find_all(ip)
       ipaddr = IPAddr.new(ip)
-      first_range = @redis.istab(@redis_key, ipaddr.to_i).first
-      if first_range
-        metadata = @redis.hgetall(metadata_key(first_range))
-        {range: first_range}.merge(metadata)
+      ranges = @redis.istab(@redis_key, ipaddr.to_i)
+      ranges.map do |range|
+        metadata = @redis.hgetall(metadata_key(range))
+        {range: range}.merge(metadata)
       end
     end
 
