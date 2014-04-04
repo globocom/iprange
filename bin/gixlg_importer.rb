@@ -16,14 +16,20 @@ def update(mysql, redis_config)
   redis = Redis.new(redis_config)
   last_update_time = redis.get(LAST_UPDATE_TIME_KEY)
 
-  sql =  "SELECT prefix, originas, nexthop, time from prefixes"
+  sql =  "SELECT neighbor, prefix, aspath, originas, nexthop, time from prefixes"
   sql += " WHERE time >= '#{last_update_time}'" if last_update_time
   sql += " ORDER BY time"
 
   results = mysql.query(sql)
   puts "#{results.count} prefixes found since '#{last_update_time}'"
   results.each_with_index do |row, i|
-    range.add row["prefix"], {as: row["originas"], nexthop: row["nexthop"]}
+    range.add row["prefix"], {
+      as: row["originas"],
+      nexthop: row["nexthop"],
+      router: row["neighbor"],
+      aspath: row["aspath"],
+      timestamp: row["time"]
+    }
     if ((i + 1) % 10000) == 0
       puts "10000 rows added"
       redis.set(LAST_UPDATE_TIME_KEY, row['time'])
