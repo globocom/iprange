@@ -5,6 +5,10 @@ require 'mysql2'
 require 'redis'
 
 mysql_config = {
+  host: "localhost",
+  database: "looking_glass_db",
+  username: "looking_glass_usr",
+  password: "looking_glass_pwd"
 }
 
 redis_config = {}
