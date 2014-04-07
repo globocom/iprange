@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Juarez Bochi"]
   spec.email         = ["jbochi@gmail.com"]
   spec.summary       = "IP ranges on Redis"
-  spec.description   = "Save IP ranges on Redis for fast lookup using sorted sets"
-  spec.homepage      = ""
+  spec.description   = "Save IP ranges on Redis for fast lookup using interval sets."
+  spec.homepage      = "https://github.com/globocom/iprange"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

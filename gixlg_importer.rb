@@ -1,5 +1,4 @@
-#!/usr/bin/ruby
-$:.unshift File.expand_path("../../lib", __FILE__)
+#!/usr/bin/env ruby
 require 'iprange'
 require 'mysql2'
 require 'redis'
