@@ -66,6 +66,21 @@ describe IPRange::Range do
     end
   end
 
+  describe "when a range is added with extra key" do
+    after :each do
+      range = IPRange::Range.new()
+      range.remove("router1:192.168.0.1/24")
+    end
+
+    it "should find it with the key" do
+      range = IPRange::Range.new
+      range.add("192.168.0.1/24", key: "router1")
+
+      response = range.find("192.168.0.20")
+      expect(response[:range]).to eq("router1:192.168.0.1/24")
+    end
+  end
+
   describe "when there is multiple ranges with overlap" do
     subject do
       IPRange::Range.new
