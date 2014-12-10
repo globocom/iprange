@@ -32,7 +32,7 @@ If your intervals do not, you can try the tag v0.0.1, which uses sorted sets ins
 
 ## Contributing
 
-1. Fork it ( http://github.com/jbochi/iprange/fork )
+1. Fork it ( http://github.com/globocom/iprange/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
