@@ -26,7 +26,7 @@ Or install it yourself as:
 
 ## Notice
 
-This gem relies on [a Redis fork that implements interval sets](https://github.com/hoxworth/redis/tree/2.6-intervals), as described in this [blog post](http://blog.togo.io/how-to/adding-interval-sets-to-redis/).
+This gem relies on [a Redis fork that implements interval sets](https://github.com/hoxworth/redis/tree/2.6-intervals), as described in this [blog post](https://hackerfall.com/story/adding-interval-sets-to-redis).
 
 If your intervals do not, you can try the tag v0.0.1, which uses sorted sets instead of inverval sets.
 
